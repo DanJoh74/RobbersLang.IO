@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +16,21 @@ namespace RobbersLang.IO.Tests
             var subject = new RobbersLangReader(new StringReader(input));
 
             var actual = subject.ReadToEnd();
+
+            actual.Should().Be(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow("abobcoc", 2, 'c')]
+        [DataRow("ÅÄÖ", 1, 'Ä')]
+        [DataRow("bob", 1, -1)]
+        public void When_peeking_then_it_should_return_the_next_character(
+            string input, int numberOfCharactersToReadBeforePeeking, int expected)
+        {
+            var subject = new RobbersLangReader(new StringReader(input));
+            subject.Read(new Span<char>(new char[numberOfCharactersToReadBeforePeeking]));
+
+            var actual = subject.Peek();
 
             actual.Should().Be(expected);
         }

@@ -13,7 +13,7 @@ namespace RobbersLang.IO
 
         static RobbersLangWriter()
         {
-            // Prepare a dictionary for optimal write performance.
+            // Prepare a dictionary to be used for encoding of special characters.
             EncodingDictionary = RobbersLang.SpecialCharacters.ToDictionary(
                 specialCharacter => specialCharacter.Character, specialCharacter => specialCharacter.Encoded);
         }

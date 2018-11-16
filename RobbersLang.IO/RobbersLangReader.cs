@@ -13,7 +13,7 @@ namespace RobbersLang.IO
 
         static RobbersLangReader()
         {
-            // Prepare a dictionary for optimal read performance.
+            // Prepare a dictionary to be used for decoding of special characters.
             DecodingDictionary = RobbersLang.SpecialCharacters.ToDictionary(
                 specialCharacter => specialCharacter.Encoded, specialCharacter => (int) specialCharacter.Character);
         }
@@ -25,7 +25,7 @@ namespace RobbersLang.IO
 
         public override int Peek()
         {
-            throw new NotSupportedException();
+            return _buffer.Count > 0 ? _buffer.Peek() : _reader.Peek();
         }
 
         public override int Read()
@@ -38,8 +38,7 @@ namespace RobbersLang.IO
             if (!DecodingDictionary.TryGetValue(new string(_buffer.ToArray()), out var decodedValue))
                 return _buffer.Dequeue();
 
-            // Found an encoded character. Clear the buffer and return
-            // the decoded value.
+            // Found an encoded character. Clear the buffer and return the decoded value.
             _buffer.Clear();
             return decodedValue;
         }
