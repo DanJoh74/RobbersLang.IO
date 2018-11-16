@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,9 +55,9 @@ namespace RobbersLang.IO
 
         private void Buffer()
         {
-            int i;
-            while (_buffer.Count < 3 && (i = _reader.Read()) >= 0)
-                _buffer.Enqueue((char) i);
+            int value;
+            while (_buffer.Count < 3 && (value = _reader.Read()) >= 0)
+                _buffer.Enqueue((char) value);
         }
     }
 }
