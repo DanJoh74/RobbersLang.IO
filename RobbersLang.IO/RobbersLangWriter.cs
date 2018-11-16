@@ -1,22 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace RobbersLang.IO
 {
     public class RobbersLangWriter : TextWriter
     {
-        private static readonly IReadOnlyDictionary<char, string> EncodingDictionary;
         private readonly TextWriter _writer;
-
-        static RobbersLangWriter()
-        {
-            // Prepare a dictionary to be used for encoding of special characters.
-            EncodingDictionary = RobbersLang.SpecialCharacters.ToDictionary(
-                specialCharacter => specialCharacter.Character, specialCharacter => specialCharacter.Encoded);
-        }
 
         public RobbersLangWriter(TextWriter writer)
             : this(writer, null)
@@ -33,7 +23,7 @@ namespace RobbersLang.IO
 
         public override void Write(char value)
         {
-            if (EncodingDictionary.TryGetValue(value, out var encodedValue))
+            if (RobbersLang.SpecialCharacters.TryGetValue(value, out var encodedValue))
                 _writer.Write(encodedValue);
             else
                 _writer.Write(value);

@@ -13,6 +13,7 @@ namespace RobbersLang.IO.Tests
         [DataRow("I'm speaking Robber's language!", "I'mom sospopeakokinongog Rorobobboberor'sos lolanongoguagoge!")]
         [DataRow(true, "Totrorue")]
         [DataRow('B', "Bob")]
+        [DataRow("", "")]
         public void When_writing_then_it_should_encode_to_Rövarspråket(object input, string expected)
         {
             var stringWriter = new StringWriter();

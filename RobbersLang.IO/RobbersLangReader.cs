@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace RobbersLang.IO
         {
             // Prepare a dictionary to be used for decoding of special characters.
             DecodingDictionary = RobbersLang.SpecialCharacters.ToDictionary(
-                specialCharacter => specialCharacter.Encoded, specialCharacter => (int) specialCharacter.Character);
+                specialCharacter => specialCharacter.Value, specialCharacter => (int) specialCharacter.Key);
         }
 
         public RobbersLangReader(TextReader reader)
@@ -35,7 +36,17 @@ namespace RobbersLang.IO
             if (_buffer.Count == 0) return -1;
 
             if (!DecodingDictionary.TryGetValue(new string(_buffer.ToArray()), out var decodedValue))
-                return _buffer.Dequeue();
+            {
+                int value = _buffer.Dequeue();
+
+                // If the first character in the buffer is a special character but the
+                // characters in the buffer do not match the encoded version of the special
+                // character, then the 'Rövarspråket' format is incorrect.
+                if (RobbersLang.SpecialCharacters.ContainsKey((char) value))
+                    throw new FormatException("Invalid 'Rövarspråket' format.");
+
+                return value;
+            }
 
             // Found an encoded character. Clear the buffer and return the decoded value.
             _buffer.Clear();

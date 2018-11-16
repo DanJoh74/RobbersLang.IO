@@ -11,6 +11,7 @@ namespace RobbersLang.IO.Tests
         [DataTestMethod]
         [DataRow("Jojagog totalolaror Rorövovarorsospoproråkoketot!", "Jag talar Rövarspråket!")]
         [DataRow("I'mom sospopeakokinongog Rorobobboberor'sos lolanongoguagoge!", "I'm speaking Robber's language!")]
+        [DataRow("", "")]
         public void When_reading_then_it_should_decode_from_Rövarspråket(string input, string expected)
         {
             var subject = new RobbersLangReader(new StringReader(input));
@@ -18,6 +19,18 @@ namespace RobbersLang.IO.Tests
             var actual = subject.ReadToEnd();
 
             actual.Should().Be(expected);
+        }
+
+        [DataTestMethod]
+        [DataRow("Jag talar Rövarspråket!")]
+        [DataRow("T")]
+        public void When_reading_invalid_content_then_it_should_throw_FormatException(string input)
+        {
+            var subject = new RobbersLangReader(new StringReader(input));
+
+            Action act = () => subject.ReadToEnd();
+
+            act.Should().Throw<FormatException>();
         }
 
         [DataTestMethod]
