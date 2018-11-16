@@ -35,9 +35,10 @@ namespace ConsoleApp
                     using (var writer = OpenWriter(options))
                     {
                         var buffer = new Span<char>(new char[512]);
+                        int count;
 
-                        while (reader.Read(buffer) > 0)
-                            writer.Write(buffer);
+                        while ((count = reader.Read(buffer)) > 0)
+                            writer.Write(buffer.Slice(0, count));
                     }
 
                     Console.WriteLine("Done.");
