@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using CommandLine;
 using RobbersLang.IO;
 
@@ -9,17 +10,17 @@ namespace ConsoleApp
     {
         public class Options
         {
-            [Option('f', "file", Required = true, HelpText = "The path to the text file to read from.")]
+            [Value(0, Required = true, HelpText = "Input file. The path to the text file to read from.")]
             public string InputFilePath { get; set; }
 
             [Option('o', "output", Required = true,
                 HelpText =
-                    "The path to the text file to write to. (If the file does not exist, it is created. If the file already exists, its contents are overwritten.)")]
+                    "Output file. The path to the text file to write to. (If the file does not exist, it is created. If the file already exists, its contents are overwritten.)")]
             public string OutputFilePath { get; set; }
 
             [Option('d', "decode", Required = false,
                 HelpText =
-                    "If specified, tells the program to decode from 'Rövarspråket'. (Otherwise, the file is expected to contain plain text to be encoded.)")]
+                    "If specified, tells the program to decode from 'Rövarspråket'. (Otherwise, the input file is expected to contain plain text to be encoded.)")]
             public bool Decode { get; set; }
         }
 
@@ -42,6 +43,14 @@ namespace ConsoleApp
                     }
 
                     Console.WriteLine("Done.");
+                })
+                .WithNotParsed(errors =>
+                {
+                    Console.WriteLine($@"Examples:
+
+dotnet {Path.GetFileName(Assembly.GetEntryAssembly().Location)} sample-plain-text.txt --output sample-robbers-language.txt
+dotnet {Path.GetFileName(Assembly.GetEntryAssembly().Location)} sample-robbers-language.txt --decode --output back-to-pain-text.txt
+");
                 });
         }
 

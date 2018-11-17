@@ -13,4 +13,10 @@
     <ProjectReference Include="..\RobbersLang.IO\RobbersLang.IO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="sample-plain-text.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
