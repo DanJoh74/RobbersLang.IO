@@ -14,12 +14,16 @@ namespace RobbersLang.IO.Tests
         [DataRow(true, "Totrorue")]
         [DataRow('B', "Bob")]
         [DataRow("", "")]
+        [DataRow("UPPER CASE", "UPOPPOPEROR COCASOSE")]
+        [DataRow("Mixed UPPER lower", "Momixoxedod UPOPPOPEROR lolowoweror")]
+        [DataRow("Toyota Material Handling AB", "Totoyotota Momatoterorialol Hohanondodlolinongog ABOB")]
         public void When_writing_then_it_should_encode_to_Rövarspråket(object input, string expected)
         {
             var stringWriter = new StringWriter();
-            var subject = new RobbersLangWriter(stringWriter, CultureInfo.InvariantCulture);
-
-            subject.Write(input);
+            using (var subject = new RobbersLangWriter(stringWriter, CultureInfo.InvariantCulture))
+            {
+                subject.Write(input);
+            }
 
             var actual = stringWriter.ToString();
             actual.Should().Be(expected);

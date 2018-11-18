@@ -14,8 +14,12 @@ namespace RobbersLang.IO
         static RobbersLangReader()
         {
             // Prepare a dictionary to be used for decoding of special characters.
-            DecodingDictionary = RobbersLang.SpecialCharacters.ToDictionary(
-                specialCharacter => specialCharacter.Value, specialCharacter => (int) specialCharacter.Key);
+            DecodingDictionary = RobbersLang.SpecialCharacters
+                .ToLookup(
+                    specialCharacter => specialCharacter.Value.ToLower(), specialCharacter => specialCharacter.Key)
+                .ToDictionary(
+                    lookup => lookup.Key, lookup => (int) char.ToLower(lookup.First()),
+                    StringComparer.OrdinalIgnoreCase);
         }
 
         public RobbersLangReader(TextReader reader)
@@ -49,8 +53,9 @@ namespace RobbersLang.IO
             }
 
             // Found an encoded character. Clear the buffer and return the decoded value.
+            var upper = char.IsUpper(_buffer.Peek());
             _buffer.Clear();
-            return decodedValue;
+            return upper ? char.ToUpper((char) decodedValue) : decodedValue;
         }
 
         public override void Close()

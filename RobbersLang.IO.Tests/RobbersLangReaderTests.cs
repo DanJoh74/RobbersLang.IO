@@ -12,6 +12,9 @@ namespace RobbersLang.IO.Tests
         [DataRow("Jojagog totalolaror Rorövovarorsospoproråkoketot!", "Jag talar Rövarspråket!")]
         [DataRow("I'mom sospopeakokinongog Rorobobboberor'sos lolanongoguagoge!", "I'm speaking Robber's language!")]
         [DataRow("", "")]
+        [DataRow("UPOPPOPEROR COCASOSE", "UPPER CASE")]
+        [DataRow("Momixoxedod UPOPPOPEROR lolowoweror", "Mixed UPPER lower")]
+        [DataRow("Totoyotota Momatoterorialol Hohanondodlolinongog ABOB", "Toyota Material Handling AB")]
         public void When_reading_then_it_should_decode_from_Rövarspråket(string input, string expected)
         {
             var subject = new RobbersLangReader(new StringReader(input));
