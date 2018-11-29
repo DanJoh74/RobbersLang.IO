@@ -7,8 +7,9 @@ namespace RobbersLang.IO
 {
     public class RobbersLangReader : TextReader
     {
+        protected internal const int EncodedCharacterLength = 3;
         private static readonly IReadOnlyDictionary<string, int> DecodingDictionary;
-        private readonly Queue<char> _buffer = new Queue<char>(3);
+        private readonly Queue<char> _buffer = new Queue<char>(EncodedCharacterLength);
         private readonly TextReader _reader;
 
         static RobbersLangReader()
@@ -67,7 +68,7 @@ namespace RobbersLang.IO
         private void Buffer()
         {
             int value;
-            while (_buffer.Count < 3 && (value = _reader.Read()) >= 0)
+            while (_buffer.Count < EncodedCharacterLength && (value = _reader.Read()) >= 0)
                 _buffer.Enqueue((char) value);
         }
     }
