@@ -7,7 +7,7 @@ namespace RobbersLang.IO
 {
     public class RobbersLangReader : TextReader
     {
-        protected internal const int EncodedCharacterLength = 3;
+        private const int EncodedCharacterLength = 3;
         private static readonly IReadOnlyDictionary<string, int> DecodingDictionary;
         private readonly Queue<char> _buffer = new Queue<char>(EncodedCharacterLength);
         private readonly TextReader _reader;
